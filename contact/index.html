@@ -15,5 +15,21 @@
         </ul>
     </nav>
     <h1>Contact</h1>
+
+    <form action="mailto:fvo@ucsd.edu" method="POST" enctype="text/plain">
+        <label for="email">Email:
+            <input type="email" id="email" name="email" required>
+        </label>
+        <br>
+        <label for="subject">Subject:
+            <input type="text" id="subject" name="subject" required>
+        </label>
+        <br>
+        <label for="body">Message:
+            <textarea id="body" name="body" rows="5" required></textarea>
+        </label>
+        <br>
+        <button>Send</button>
+    </form>
 </body>
 </html>
