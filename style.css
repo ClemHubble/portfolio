@@ -1,13 +1,17 @@
 body {
-  /* Set line height to 1.5 times the font size and use the OS’s UI font as the website font */
   font: 100%/1.5 system-ui;
 
-  /* Limit the width of the content to 100ch for better readability */
   max-width: 100ch;
 
-  /* Center the content using margin-inline shorthand */
   margin-inline: auto;
 
-  /* Add padding to prevent content from touching viewport edges */
   padding: 1rem;
+
+  nav ul {
+    display: contents;
+  }
+  
+  nav ul li {
+    display: contents;
+  }
 }
