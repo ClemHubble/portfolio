@@ -77,3 +77,9 @@ button {
 button:hover {
   background-color: oklch(from var(--color-accent) 80% 10% h);
 }
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+}
