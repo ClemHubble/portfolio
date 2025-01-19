@@ -72,12 +72,29 @@ document.body.insertAdjacentHTML(
 );
 
 const themeSwitcher = document.getElementById('theme-switcher');
-themeSwitcher.addEventListener('change', (event) => {
-  const selectedTheme = event.target.value;
-  document.documentElement.style.setProperty('color-scheme', selectedTheme);
-  if (selectedTheme === 'light dark') {
+
+function setColorScheme(colorScheme) {
+  document.documentElement.style.setProperty('color-scheme', colorScheme);
+  
+  if (colorScheme === 'light dark') {
     document.documentElement.removeAttribute('data-theme');
   } else {
-    document.documentElement.setAttribute('data-theme', selectedTheme);
+    document.documentElement.setAttribute('data-theme', colorScheme);
   }
+
+  themeSwitcher.value = colorScheme;
+}
+
+themeSwitcher.addEventListener('change', (event) => {
+  const selectedTheme = event.target.value;
+
+  localStorage.colorScheme = selectedTheme;
+
+  setColorScheme(selectedTheme);
 });
+
+if ('colorScheme' in localStorage) {
+  setColorScheme(localStorage.colorScheme);
+} else {
+  setColorScheme('light dark');
+}
