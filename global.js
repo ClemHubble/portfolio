@@ -6,16 +6,13 @@ function $$(selector, context = document) {
 }
 
 function getBasePath() {
-  // Check if we're on GitHub Pages by looking for 'github.io' in the hostname
   const isGitHubPages = location.hostname.includes('github.io');
-  // Get the current path segments
   const pathSegments = window.location.pathname.split('/');
   
   if (isGitHubPages) {
-    // Ensure we always return /portfolio/
     return '/portfolio/';
   }
-  return '/'; // Local development
+  return '/'; 
 }
 
 let pages = [
@@ -36,14 +33,10 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  // Handle non-external URLs
   if (!url.startsWith('http')) {
     if (ARE_WE_HOME) {
-      // When on home page, use absolute paths with base path
       url = basePath + url;
     } else {
-      // When in subpages, first go up to base path
-      // Remove the current page path and add the new path
       url = basePath + url;
     }
   }
@@ -53,7 +46,6 @@ for (let p of pages) {
   a.textContent = title;
   nav.append(a);
 
-  // Modify the current page detection
   a.classList.toggle(
     'current',
     a.host === location.host && 
