@@ -56,3 +56,30 @@ for (let p of pages) {
     a.target = "_blank";
   }
 }
+
+// Add theme switcher
+document.body.insertAdjacentHTML(
+  'afterbegin',
+  `
+  <label class="color-scheme">
+    Theme:
+    <select id="theme-switcher">
+      <option value="light dark" selected>Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+  `
+);
+
+// Handle theme switching
+const themeSwitcher = document.getElementById('theme-switcher');
+themeSwitcher.addEventListener('change', (event) => {
+  const selectedTheme = event.target.value;
+  document.documentElement.style.setProperty('color-scheme', selectedTheme);
+  if (selectedTheme === 'light dark') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', selectedTheme);
+  }
+});
