@@ -21,9 +21,9 @@ function $$(selector, context = document) {
 let pages = [
   { url: '', title: 'Home' },
   { url: 'projects/', title: 'Projects' },
-  { url: 'about/', title: 'About' },
+  { url: 'resume/', title: 'Resume' },
   { url: 'contact/', title: 'Contact' },
-  { url: 'https://github.com/your-profile', title: 'GitHub' },
+  { url: 'https://github.com/ClemHubble', title: 'GitHub' },
 ];
 
 let nav = document.createElement('nav');
@@ -35,7 +35,9 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+  if (!ARE_WE_HOME && !url.startsWith('http')) {
+    url = '../' + url;
+  }
 
   let a = document.createElement('a');
   a.href = url;
@@ -46,7 +48,9 @@ for (let p of pages) {
     a.host === location.host && a.pathname === location.pathname
   );
 
-  a.toggleAttribute('target', a.host !== location.host);
+  if (a.host !== location.host) {
+    a.target = "_blank";
+  }
 
   nav.append(a);
 }
