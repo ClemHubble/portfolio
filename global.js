@@ -4,11 +4,14 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-function getRepoPath() {
-  const path = location.pathname;
-  const parts = path.split('/');
-  // If we're on GitHub Pages, return the repo name, otherwise empty string
-  return parts[1] === '' ? '' : '/' + parts[1];
+// Modified to always return the correct base path
+function getBasePath() {
+  // Check if we're on GitHub Pages by looking for 'github.io' in the hostname
+  const isGitHubPages = location.hostname.includes('github.io');
+  if (isGitHubPages) {
+    return '/portfolio/';  // Your repository name
+  }
+  return '/';  // Local development
 }
 
 let pages = [
@@ -28,15 +31,14 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  // url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+  // Only modify non-external URLs
   if (!url.startsWith('http')) {
     if (ARE_WE_HOME) {
-        url = url;  // Keep as is for home page
+      url = getBasePath() + url;  // Add portfolio prefix on GitHub Pages
     } else {
-        // Always go back to root first
-        url = '../' + url;  // This ensures we go up one level to the root
+      url = '../' + url;  // Go up one level when in subpages
     }
-  } 
+  }
 
   let a = document.createElement('a');
   a.href = url;
