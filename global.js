@@ -4,11 +4,11 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-function getBasePath() {
-  // Get the base path depending on whether we're on GitHub Pages or local
+function getRepoPath() {
   const path = location.pathname;
-  const baseDir = path.substring(0, path.lastIndexOf('/'));
-  return baseDir;
+  const parts = path.split('/');
+  // If we're on GitHub Pages, return the repo name, otherwise empty string
+  return parts[1] === '' ? '' : '/' + parts[1];
 }
 
 let pages = [
@@ -31,12 +31,12 @@ for (let p of pages) {
   // url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
   if (!url.startsWith('http')) {
     if (ARE_WE_HOME) {
-        url = url; // Keep as is for home page
+        url = url;  // Keep as is for home page
     } else {
-        // Use absolute path from root of the project
-        url = `${getBasePath()}/../${url}`;
+        // Always go back to root first
+        url = '../' + url;  // This ensures we go up one level to the root
     }
-  }
+  } 
 
   let a = document.createElement('a');
   a.href = url;
