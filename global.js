@@ -9,7 +9,7 @@ let pages = [
   { url: 'projects/', title: 'Projects' },
   { url: 'resume/', title: 'Resume' },
   { url: 'contact/', title: 'Contact' },
-  { url: 'https://ClemHubble.github.io/portfolio', title: 'GitHub' },
+  { url: 'https://ClemHubble.github.io/', title: 'GitHub' },
 ];
 
 let nav = document.createElement('nav');
