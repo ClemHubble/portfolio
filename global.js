@@ -1,17 +1,21 @@
 console.log('IT’S ALIVE!');
 
+
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
-// Modified to always return the correct base path
 function getBasePath() {
   // Check if we're on GitHub Pages by looking for 'github.io' in the hostname
   const isGitHubPages = location.hostname.includes('github.io');
+  // Get the current path segments
+  const pathSegments = window.location.pathname.split('/');
+  
   if (isGitHubPages) {
-    return '/portfolio/';  // Your repository name
+    // Ensure we always return /portfolio/
+    return '/portfolio/';
   }
-  return '/';  // Local development
+  return '/'; // Local development
 }
 
 let pages = [
@@ -26,17 +30,21 @@ let nav = document.createElement('nav');
 document.body.prepend(nav);
 
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const basePath = getBasePath();
 
 for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  // Only modify non-external URLs
+  // Handle non-external URLs
   if (!url.startsWith('http')) {
     if (ARE_WE_HOME) {
-      url = getBasePath() + url;  // Add portfolio prefix on GitHub Pages
+      // When on home page, use absolute paths with base path
+      url = basePath + url;
     } else {
-      url = '../' + url;  // Go up one level when in subpages
+      // When in subpages, first go up to base path
+      // Remove the current page path and add the new path
+      url = basePath + url;
     }
   }
 
@@ -45,9 +53,11 @@ for (let p of pages) {
   a.textContent = title;
   nav.append(a);
 
+  // Modify the current page detection
   a.classList.toggle(
     'current',
-    a.host === location.host && a.pathname === location.pathname
+    a.host === location.host && 
+    a.pathname === location.pathname
   );
 
   if (a.host !== location.host) {
