@@ -46,6 +46,25 @@ nav a.current {
   padding-bottom: calc(0.5em - 0.4em);
 }
 
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 80%;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.color-scheme select {
+  padding: 0.25em;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 4px;
+  background-color: canvas;
+  color: canvastext;
+}
+
 form {
   display: grid;
   grid-template-columns: auto 1fr;

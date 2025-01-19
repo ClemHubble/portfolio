@@ -57,7 +57,6 @@ for (let p of pages) {
   }
 }
 
-// Add theme switcher
 document.body.insertAdjacentHTML(
   'afterbegin',
   `
@@ -72,7 +71,6 @@ document.body.insertAdjacentHTML(
   `
 );
 
-// Handle theme switching
 const themeSwitcher = document.getElementById('theme-switcher');
 themeSwitcher.addEventListener('change', (event) => {
   const selectedTheme = event.target.value;
