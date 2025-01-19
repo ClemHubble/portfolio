@@ -1,17 +1,3 @@
-// console.log('IT’S ALIVE!');
-
-// function $$(selector, context = document) {
-//   return Array.from(context.querySelectorAll(selector));
-// }
-
-// const navLinks = $$("nav a");
-
-// const currentLink = navLinks.find(
-//   (a) => a.host === location.host && a.pathname === location.pathname
-// );
-
-// currentLink?.classList.add('current'); 
-
 console.log('IT’S ALIVE!');
 
 function $$(selector, context = document) {
@@ -23,7 +9,7 @@ let pages = [
   { url: 'projects/', title: 'Projects' },
   { url: 'resume/', title: 'Resume' },
   { url: 'contact/', title: 'Contact' },
-  { url: 'https://github.com/ClemHubble', title: 'GitHub' },
+  { url: 'https://github.com/ClemHubble/portfolio', title: 'GitHub' },
 ];
 
 let nav = document.createElement('nav');
