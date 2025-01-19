@@ -21,7 +21,10 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+  // Make sure it's relative (skip absolute URLs like GitHub)
+  if (!url.startsWith('http')) {
+    url = !ARE_WE_HOME ? '../' + url : url;
+  }
 
   let a = document.createElement('a');
   a.href = url;
@@ -34,6 +37,6 @@ for (let p of pages) {
   );
 
   if (a.host !== location.host) {
-    a.target = "_blank";
+    a.target = "_blank";  // Open external links in a new tab
   }
 }
