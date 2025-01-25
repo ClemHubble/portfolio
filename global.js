@@ -1,6 +1,5 @@
 console.log('IT’S ALIVE!');
 
-
 function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
@@ -114,3 +113,57 @@ form?.addEventListener('submit', (event) => {
 
   location.href = url;
 });
+
+export async function fetchJSON(url) {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log('Fetched data:', data); 
+    return data;
+  } catch (error) {
+    console.error('Error fetching or parsing JSON data:', error);
+  }
+}
+
+if (document.documentElement.classList.contains('projects')) {
+  loadProjects();
+}
+
+export function renderProjects(project, containerElement, headingLevel = 'h2') {
+  if (!project || !containerElement) {
+    console.error('Invalid parameters passed to renderProjects');
+    return;
+  }
+
+  containerElement.innerHTML = '';
+
+  project.forEach((proj) => {
+    const article = document.createElement('article');
+
+    article.innerHTML = `
+      <${headingLevel}>${proj.title}</${headingLevel}>
+      <img src="${proj.image || ''}" alt="${proj.title || 'Project image'}" loading="lazy">
+      <p>${proj.description || 'No description available.'}</p>
+    `;
+
+    containerElement.appendChild(article);
+  });
+}
+
+async function loadProjects() {
+  const projectsContainer = document.querySelector('#projects-container');
+  const projectsData = await fetchJSON('../lib/projects.json');
+
+  if (projectsData && projectsContainer) {
+    renderProjects(projectsData, projectsContainer, 'h3');
+  }
+}
+
+if (document.documentElement.classList.contains('projects')) {
+  loadProjects();
+}
