@@ -157,7 +157,7 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
 
 async function loadProjects() {
   const projectsContainer = document.querySelector('#projects-container');
-  const projectsData = await fetchJSON('../lib/projects.json');
+  const projectsData = await fetchJSON(`${basePath}lib/projects.json`);
 
   if (projectsData && projectsContainer) {
     renderProjects(projectsData, projectsContainer, 'h3');
