@@ -1,61 +1,73 @@
 [
     {
-        "title": "Lorem ipsum dolor sit.",
+        "title": "TIDMAD",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, molestiae quas veritatis, dolor expedita quis aliquid impedit minus eligendi vel odio, molestias fugiat voluptatibus quia quidem ut reiciendis! Facere, ab!"
     },
     {
-        "title": "Neque quis dolorum commodi?",
+        "title": "NYC Vehicle Crash Analysis",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Unde obcaecati nesciunt esse facilis. Deleniti minus ad laboriosam similique porro nulla aspernatur doloremque culpa dolorum dolores maiores corporis ducimus nisi quasi molestiae tempora recusandae, nemo quod. Sequi, nostrum sit?"
     },
     {
-        "title": "Debitis consequatur illo quo!",
+        "title": "DSC 106 Project 1",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Commodi sapiente quod enim perferendis nesciunt, nulla nam vitae explicabo voluptate repudiandae expedita? Obcaecati blanditiis deleniti ab dolore voluptatibus culpa esse libero provident, placeat optio hic officiis itaque minima quas?"
     },
     {
-        "title": "Tempore suscipit vero fuga!",
+        "title": "DSC 106 Lab 4",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Beatae iure quis sit. Iure in perspiciatis modi aut itaque! Eaque sed eos, mollitia quaerat vitae id consectetur quis ea possimus cum cumque incidunt ullam dolor accusantium a ducimus suscipit."
     },
     {
-        "title": "Eos accusantium provident alias!",
+        "title": "DSC 106 Lab 3",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Ipsam facere sit nihil aliquam qui quasi magnam odit? Hic aliquam consequuntur voluptates dignissimos, ab debitis nulla! Reprehenderit laborum consectetur alias ut, tempora quas officia mollitia fugit eum, necessitatibus quod!"
     },
     {
-        "title": "Dignissimos distinctio impedit placeat.",
+        "title": "DSC 106 Lab 2",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Id tempora facilis officia, hic doloremque consequatur ratione commodi eveniet consectetur maiores assumenda excepturi dolores aspernatur error recusandae, magnam voluptatibus. Autem corporis, ea sint praesentium sequi illum tempore esse tempora?"
     },
     {
-        "title": "Nemo neque nesciunt eos?",
+        "title": "DSC 106 Lab 1",
+        "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Qui, rem omnis libero unde voluptatum veritatis dolorem voluptate similique repellat illo laudantium debitis velit numquam ipsum laboriosam tempore saepe vero, odit dicta consectetur! Excepturi magni ipsa corrupti deserunt rem?"
     },
     {
-        "title": "Ipsum eveniet excepturi dignissimos.",
+        "title": "DataScientist.AI",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Iusto voluptatum, illo placeat voluptatem ipsa aperiam, assumenda tempora quidem reprehenderit aliquid, amet excepturi neque magnam repudiandae cum? Molestiae sequi ea corrupti adipisci delectus esse! Tempora excepturi distinctio quasi nesciunt."
     },
     {
-        "title": "Tempora, iusto accusantium. Hic.",
+        "title": "DSC 80 Food Analysis",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Dignissimos provident quaerat animi officia eius aliquam nemo quae amet voluptatum beatae earum possimus neque rem delectus nihil sed magnam laboriosam, commodi obcaecati numquam saepe! Adipisci reprehenderit explicabo eos veniam."
     },
     {
-        "title": "Non tempora minima quas.",
+        "title": "Cruz Roja Tijuana",
+        "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Vitae, illum obcaecati repellendus autem ipsum sequi aspernatur dolorum quos labore qui optio, officia ipsam, adipisci ullam non eius unde dolore modi nobis vel. Explicabo similique consequuntur quas libero impedit."
     },
     {
-        "title": "Sint, quaerat. Odit, qui.",
+        "title": "PlanetFlip",
+        "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Ipsa autem odio vel quaerat ab sunt cumque sint ducimus voluptatem aliquid voluptate officia qui magni, expedita voluptates, eius, incidunt atque pariatur consectetur minima molestiae? Similique expedita repudiandae eligendi in."
     },
     {
-        "title": "Vitae voluptatem dicta quod?",
+        "title": "Franklin Research",
+        "year": "2019",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Dignissimos eligendi voluptatum, ipsam alias veniam praesentium quo iusto necessitatibus cupiditate consectetur. Ab mollitia laboriosam maiores minus et accusantium, omnis ad sit odio ratione odit, fugit saepe voluptatum fugiat reprehenderit."
     }
