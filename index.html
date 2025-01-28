@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fong Vo: Personal site and portfolio</title>
+    <script>
+        const basePath = location.hostname.includes('github.io')
+          ? `/${location.pathname.split('/')[1]}/`
+          : '/';
+      </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>

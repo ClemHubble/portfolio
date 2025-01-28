@@ -6,12 +6,11 @@ function $$(selector, context = document) {
 
 function getBasePath() {
   const isGitHubPages = location.hostname.includes('github.io');
-  const pathSegments = window.location.pathname.split('/');
-  
   if (isGitHubPages) {
-    return '/portfolio/';
+    const repoName = location.pathname.split('/')[1]; // Extracts the repo name
+    return `/${repoName}/`;
   }
-  return '/'; 
+  return '/'; // For local development
 }
 
 let pages = [
