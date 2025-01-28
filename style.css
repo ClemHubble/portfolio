@@ -127,3 +127,32 @@ h3, h4, h5, h6 {
   line-height: 1.1;
   text-wrap: balance;
 }
+
+#profile-stats {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: #f9f9f9;
+  max-width: 600px;
+}
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+  gap: 8px; /* Add some spacing between items */
+  margin: 0;
+  padding: 0;
+}
+
+#profile-stats dt {
+  font-weight: bold;
+  text-align: center;
+  grid-row: 1; /* Force <dt> elements to be on the first row */
+}
+
+#profile-stats dd {
+  margin: 0;
+  text-align: center;
+  grid-row: 2; /* Force <dd> elements to be on the second row */
+}
