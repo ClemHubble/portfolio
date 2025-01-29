@@ -51,24 +51,24 @@
         "title": "DSC 80 Food Analysis",
         "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Dignissimos provident quaerat animi officia eius aliquam nemo quae amet voluptatum beatae earum possimus neque rem delectus nihil sed magnam laboriosam, commodi obcaecati numquam saepe! Adipisci reprehenderit explicabo eos veniam."
+        "description": "Predicting cooking times using Food.com data to uncover relationships between preparation time, nutrition, and user ratings."
     },
     {
         "title": "Cruz Roja Tijuana",
         "year": "2024",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Vitae, illum obcaecati repellendus autem ipsum sequi aspernatur dolorum quos labore qui optio, officia ipsam, adipisci ullam non eius unde dolore modi nobis vel. Explicabo similique consequuntur quas libero impedit."
+        "description": "Improved ambulance allocation website for Tijuana by streamlining data tables, resolving duplication issues, and enhancing accessibility for faster emergency response."
     },
     {
         "title": "PlanetFlip",
         "year": "2023",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Ipsa autem odio vel quaerat ab sunt cumque sint ducimus voluptatem aliquid voluptate officia qui magni, expedita voluptates, eius, incidunt atque pariatur consectetur minima molestiae? Similique expedita repudiandae eligendi in."
+        "description": "Developed an interactive game to educate users on the environmental impact of commuting, using Figma wireframes and collaborating with a non-profit to create an engaging, visually rich learning experience."
     },
     {
         "title": "Franklin Research",
         "year": "2019",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Dignissimos eligendi voluptatum, ipsam alias veniam praesentium quo iusto necessitatibus cupiditate consectetur. Ab mollitia laboriosam maiores minus et accusantium, omnis ad sit odio ratione odit, fugit saepe voluptatum fugiat reprehenderit."
+        "description": "Performed a detailed analysis on a diabetes dataset, benchmarking 8 ML algorithms to identify the best model for diagnosis and ranking risk factors based on their impact, all implemented in Python on Google Colab."
     }
 ]
