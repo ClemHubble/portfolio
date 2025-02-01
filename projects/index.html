@@ -5,11 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        .container {
+            display: flex;
+            align-items: center; 
+            gap: 20px; 
+        }
+
+        .legend {
+            flex: 1; 
+        }
+    </style>
 </head>
 <body>
     <h1 class="projects-title">Projects</h1>
-    <svg viewBox="-50 -50 100 100"> </svg>
-    <ul class="legend"></ul>
+    <div class="container">
+        <svg viewBox="-50 -50 100 100"></svg>
+        <ul class="legend"></ul>
+    </div>
     <div class="projects"></div>
     <script src="../global.js" type="module"></script>
     <script src="projects.js" type="module"></script>
