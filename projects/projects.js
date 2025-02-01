@@ -16,9 +16,10 @@ let query = '';
 function setQuery(newQuery) {
   query = newQuery.toLowerCase(); 
 
-  let filteredProjects = projects.filter((project) =>
-    project.title.toLowerCase().includes(query)
-  );
+  let filteredProjects = projects.filter((project) => {
+    let values = Object.values(project).join('\n').toLowerCase();
+    return values.includes(query);
+  });
 
   return filteredProjects;
 }
