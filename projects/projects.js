@@ -24,6 +24,8 @@ function setQuery(newQuery) {
   return filteredProjects;
 }
 
+let selectedIndex = -1;
+
 function renderPieChartAndLegend(projects) {
   let rolledData = d3.rollups(
     projects, 
@@ -47,17 +49,41 @@ function renderPieChartAndLegend(projects) {
   legend.html(''); 
 
   arcData.forEach((d, idx) => {
-    svg.append('path')
+    let path = svg.append('path')
       .attr('d', arcGenerator(d))
-      .attr('fill', d3.schemeTableau10[idx]);
+      .attr('fill', d3.schemeTableau10[idx])
+      .style('cursor', 'pointer')  
+      .on('click', () => {
+        selectedIndex = selectedIndex === idx ? -1 : idx;
+
+        svg.selectAll('path').each(function (d, i) {
+          d3.select(this).classed('selected', i === selectedIndex);
+        });
+
+        legend.selectAll('li').each(function (d, i) {
+          d3.select(this).classed('selected-legend', i === selectedIndex);
+        });
+      });
   });
 
   data.forEach((d, idx) => {
     legend.append('li')
       .attr('style', `--color:${d3.schemeTableau10[idx]}`)
-      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+      .on('click', () => {
+        selectedIndex = selectedIndex === idx ? -1 : idx;
+
+        svg.selectAll('path').each(function (d, i) {
+          d3.select(this).classed('selected', i === selectedIndex);
+        });
+
+        legend.selectAll('li').each(function (d, i) {
+          d3.select(this).classed('selected-legend', i === selectedIndex);
+        });
+      });
   });
 }
+
 
 renderPieChartAndLegend(projects);
 

@@ -230,3 +230,16 @@ svg:has(path:hover) {
     opacity: 50%;
   }
 }
+
+.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
+}
+
+.selected-legend {
+  font-weight: bold;
+  color: var(--color);
+}
