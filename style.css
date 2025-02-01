@@ -220,3 +220,13 @@ svg {
   margin-right: 8px;
   border-radius: 4px;
 }
+
+path {
+  transition: opacity 300ms;
+}
+
+svg:has(path:hover) {
+  path:not(:hover) {
+    opacity: 50%;
+  }
+}
