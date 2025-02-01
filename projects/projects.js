@@ -24,6 +24,43 @@ function setQuery(newQuery) {
   return filteredProjects;
 }
 
+function renderPieChartAndLegend(projects) {
+  let rolledData = d3.rollups(
+    projects, 
+    (v) => v.length, 
+    (d) => d.year 
+  );
+
+  let data = rolledData.map(([year, count]) => ({
+    value: count,
+    label: year.toString()
+  }));
+
+  let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  let sliceGenerator = d3.pie().value((d) => d.value);
+  let arcData = sliceGenerator(data);
+
+  let svg = d3.select('svg');
+  svg.selectAll('path').remove();
+
+  let legend = d3.select('.legend');
+  legend.html(''); 
+
+  arcData.forEach((d, idx) => {
+    svg.append('path')
+      .attr('d', arcGenerator(d))
+      .attr('fill', d3.schemeTableau10[idx]);
+  });
+
+  data.forEach((d, idx) => {
+    legend.append('li')
+      .attr('style', `--color:${d3.schemeTableau10[idx]}`)
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  });
+}
+
+renderPieChartAndLegend(projects);
+
 let searchInput = document.getElementsByClassName('searchBar')[0];
 
 searchInput.addEventListener('input', (event) => {
@@ -33,38 +70,6 @@ searchInput.addEventListener('input', (event) => {
   if (projectsTitle) {
     projectsTitle.innerHTML = `${updatedProjects.length} Projects`;
   }
-});
 
-let rolledData = d3.rollups(
-  projects,
-  (v) => v.length, 
-  (d) => d.year 
-);
-
-let data = rolledData.map(([year, count]) => ({
-  value: count,
-  label: year.toString()
-}));
-
-let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-let sliceGenerator = d3.pie().value((d) => d.value);
-let arcData = sliceGenerator(data);
-
-let colors = d3.scaleOrdinal(d3.schemeTableau10);
-
-let svg = d3.select('svg');
-
-let arcs = arcData.map((d, idx) => {
-  svg.append('path')
-    .attr('d', arcGenerator(d))
-    .attr('fill', colors(idx));
-});
-
-let legend = d3.select('.legend');
-legend.html('');
-
-data.forEach((d, idx) => {
-  legend.append('li')
-        .attr('style', `--color:${colors(idx)}`)
-        .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  renderPieChartAndLegend(updatedProjects);
 });
