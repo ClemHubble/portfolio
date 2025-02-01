@@ -159,8 +159,8 @@ h3, h4, h5, h6 {
 
 #profile-stats dl {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
-  gap: 8px; /* Add some spacing between items */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 8px; 
   margin: 0;
   padding: 0;
 }
@@ -168,20 +168,20 @@ h3, h4, h5, h6 {
 #profile-stats dt {
   font-weight: bold;
   text-align: center;
-  grid-row: 1; /* Force <dt> elements to be on the first row */
+  grid-row: 1; 
 }
 
 #profile-stats dd {
   margin: 0;
   text-align: center;
-  grid-row: 2; /* Force <dd> elements to be on the second row */
+  grid-row: 2; 
 }
 
 .project-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5em; /* Ensures spacing between description and year */
+  gap: 0.5em; 
 }
 
 .project-year {
@@ -189,5 +189,13 @@ h3, h4, h5, h6 {
   font-variant-numeric: oldstyle-nums;
   font-style: italic;
   font-size: 0.9em;
-  margin-top: 0.5em; /* Pushes the year below the description */
+  margin-top: 0.5em; 
+}
+
+svg {
+  max-width: 20em;
+  margin-block: 2em;
+
+  /* Do not clip shapes outside the viewBox */
+  overflow: visible;
 }
