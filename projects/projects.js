@@ -11,6 +11,29 @@ if (projectsTitle) {
   projectsTitle.innerHTML = `${projects.length} Projects`;
 }
 
+let query = '';
+
+function setQuery(newQuery) {
+  query = newQuery.toLowerCase(); 
+
+  let filteredProjects = projects.filter((project) =>
+    project.title.toLowerCase().includes(query)
+  );
+
+  return filteredProjects;
+}
+
+let searchInput = document.getElementsByClassName('searchBar')[0];
+
+searchInput.addEventListener('input', (event) => {
+  let updatedProjects = setQuery(event.target.value);
+  
+  renderProjects(updatedProjects, projectsContainer, 'h2');
+  if (projectsTitle) {
+    projectsTitle.innerHTML = `${updatedProjects.length} Projects`;
+  }
+});
+
 let rolledData = d3.rollups(
   projects,
   (v) => v.length, 
