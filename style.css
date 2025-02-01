@@ -176,3 +176,18 @@ h3, h4, h5, h6 {
   text-align: center;
   grid-row: 2; /* Force <dd> elements to be on the second row */
 }
+
+.project-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5em; /* Ensures spacing between description and year */
+}
+
+.project-year {
+  font-family: Baskerville, serif;
+  font-variant-numeric: oldstyle-nums;
+  font-style: italic;
+  font-size: 0.9em;
+  margin-top: 0.5em; /* Pushes the year below the description */
+}
