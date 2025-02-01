@@ -12,9 +12,21 @@ if (projectsTitle) {
   projectsTitle.innerHTML = `${projects.length} Projects`;
 }
 
-let arc = d3.arc().innerRadius(0).outerRadius(50)({
-  startAngle: 0,
-  endAngle: 2 * Math.PI,
-});
+let data = [1, 2]; 
 
-d3.select('svg').append('path').attr('d', arc).attr('fill', 'red');
+let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+
+let sliceGenerator = d3.pie();
+let arcData = sliceGenerator(data); 
+
+let colors = ['gold', 'purple'];
+
+let arcs = arcData.map((d) => arcGenerator(d));
+
+arcs.forEach((arc, idx) => {
+  d3.select('svg')
+    .append('path')
+    .attr('d', arc)
+    .attr('fill', colors[idx]) 
+})
+
