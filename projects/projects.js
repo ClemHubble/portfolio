@@ -32,12 +32,10 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
   const svg = d3.select('svg');
   const legend = d3.select('.legend');
   
-  // Clear existing elements
   svg.selectAll('path').remove();
   legend.html('');
 
   arcsGiven.forEach((arc, i) => {
-    // Add pie chart segments
     svg.append('path')
       .attr('d', arc)
       .attr('fill', d3.schemeTableau10[i])
@@ -45,7 +43,6 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
       .on('click', () => {
         selectedIndex = selectedIndex === i ? -1 : i;
         
-        // Update visual states
         svg.selectAll('path').each(function(_, idx) {
           d3.select(this).classed('selected', idx === selectedIndex);
         });
@@ -54,7 +51,6 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
           d3.select(this).classed('selected-legend', idx === selectedIndex);
         });
 
-        // Filter and update projects based on selection
         if (selectedIndex !== -1) {
           const selectedYear = dataGiven[selectedIndex].label;
           const filteredProjects = projectsGiven.filter(project => 
@@ -66,7 +62,6 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
             projectsTitle.innerHTML = `${filteredProjects.length} Projects`;
           }
 
-          // Update legend with highlight color
           legend.html('');
           const newData = recalculate(filteredProjects);
           newData.forEach((d) => {
@@ -75,13 +70,11 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
               .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
           });
         } else {
-          // Reset to show all projects
           renderProjects(projectsGiven, projectsContainer, 'h2');
           if (projectsTitle) {
             projectsTitle.innerHTML = `${projectsGiven.length} Projects`;
           }
 
-          // Reset legend with normal colors
           legend.html('');
           const newData = recalculate(projectsGiven);
           newData.forEach((d, idx) => {
@@ -93,7 +86,6 @@ function embedArcClick(arcsGiven, projectsGiven, dataGiven) {
       });
   });
 
-  // Add initial legend items
   dataGiven.forEach((d, i) => {
     legend.append('li')
       .attr('style', `--color:${d3.schemeTableau10[i]}`)
@@ -112,18 +104,16 @@ function renderPieChartAndLegend(projects) {
   embedArcClick(arcs, projects, data);
 }
 
-// Initial render
 renderProjects(projects, projectsContainer, 'h2');
 if (projectsTitle) {
   projectsTitle.innerHTML = `${projects.length} Projects`;
 }
 renderPieChartAndLegend(projects);
 
-// Search functionality
 const searchInput = document.getElementsByClassName('searchBar')[0];
 searchInput.addEventListener('input', (event) => {
   const filteredProjects = setQuery(event.target.value);
-  selectedIndex = -1; // Reset selection when searching
+  selectedIndex = -1; 
   
   renderProjects(filteredProjects, projectsContainer, 'h2');
   if (projectsTitle) {
