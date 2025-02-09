@@ -1,26 +1,22 @@
 name: Deploy static content to Pages
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ['main']
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+
 permissions:
   contents: write
   pages: write
   id-token: write
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+
+# Split into two concurrency groups to handle deployments and commits separately
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: "pages-${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # Split into two jobs to better handle the different operations
+  update-stats:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,6 +27,25 @@ jobs:
       - name: Run Elocuent
         run: |
           npx elocuent -d . -o meta/loc.csv
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          mkdir -p meta
+          git add -f meta/loc.csv
+          git commit -m "Update code statistics" || echo "No changes to commit"
+          git push || git pull --rebase && git push
+
+  deploy:
+    needs: update-stats
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -43,16 +58,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Delay Before Push
-        run: sleep 10  # Short delay to avoid conflict
-
-      - name: Commit and Push
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          mkdir -p meta
-          git pull
-          git add -f meta/loc.csv
-          git commit -m "Update code statistics" || echo "No changes to commit"
-          git push
