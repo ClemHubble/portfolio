@@ -51,31 +51,85 @@ function createScatterplot() {
 
     console.log("Commits:", commits);
 
+    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+
+    const usableArea = {
+        top: margin.top,
+        right: width - margin.right,
+        bottom: height - margin.bottom,
+        left: margin.left,
+        width: width - margin.left - margin.right,
+        height: height - margin.top - margin.bottom,
+    };
+
     const svg = d3
-      .select('#chart')
-      .append('svg')
-      .attr('viewBox', `0 0 ${width} ${height}`)
-      .style('overflow', 'visible');
+        .select('#chart')
+        .append('svg')
+        .attr('viewBox', `0 0 ${width} ${height}`)
+        .style('overflow', 'visible');
 
     const xScale = d3
-      .scaleTime()
-      .domain(d3.extent(commits, (d) => d.datetime))
-      .range([0, width])
-      .nice();
+        .scaleTime()
+        .domain(d3.extent(commits, (d) => d.datetime))
+        .range([usableArea.left, usableArea.right])
+        .nice();
 
-    const yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
+    const yScale = d3
+        .scaleLinear()
+        .domain([24, 0])  
+        .range([usableArea.bottom, usableArea.top]);
+
+    svg.append('g')
+        .attr('class', 'gridlines')
+        .attr('transform', `translate(${usableArea.left}, 0)`)
+        .call(
+            d3.axisLeft(yScale)
+                .tickSize(-usableArea.width)
+                .tickFormat('')
+        )
+        .style('color', '#ccc')  
+        .style('opacity', 0.3)
+        .call(g => {
+            g.selectAll('.domain').remove();  
+            g.selectAll('line').style('stroke-dasharray', '2,2');
+        });
+
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat('%b %d')); 
+    const yAxis = d3
+        .axisLeft(yScale)
+        .tickFormat((d) => (d === 24 ? '24' : String(d).padStart(2, '0') + ':00')) 
+        .ticks(12); 
+
+    svg.append('g')
+        .attr('class', 'x-axis')
+        .attr('transform', `translate(0, ${usableArea.bottom})`)
+        .call(xAxis)
+        .select('.domain')
+        .style('stroke', '#000');
+
+    svg.append('g')
+        .attr('class', 'y-axis')
+        .attr('transform', `translate(${usableArea.left}, 0)`)
+        .call(yAxis)
+        .select('.domain')
+        .style('stroke', '#000');
 
     const dots = svg.append('g').attr('class', 'dots');
 
     dots
-      .selectAll('circle')
-      .data(commits)
-      .join('circle')
-      .attr('cx', (d) => xScale(d.datetime))
-      .attr('cy', (d) => yScale(d.hourFrac))
-      .attr('r', 5)
-      .attr('fill', 'steelblue');
+        .selectAll('circle')
+        .data(commits)
+        .join('circle')
+        .attr('cx', (d) => xScale(d.datetime))
+        .attr('cy', (d) => yScale(d.hourFrac))
+        .attr('r', 3.5)  
+        .attr('fill', (d) => {
+            const hour = d.hourFrac;
+            return hour < 6 || hour >= 18 ? '#4477AA' : '#DD7733';
+        })
+        .attr('opacity', 0.8); 
 }
+
 
 function displayStats() {
     processCommits();
