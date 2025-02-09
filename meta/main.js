@@ -1,6 +1,9 @@
 let data = [];
 let commits = [];
 
+const width = 1000;
+const height = 600;
+
 async function loadData() {
     data = await d3.csv('loc.csv', (row) => ({
         ...row,
@@ -12,6 +15,7 @@ async function loadData() {
     }));
     
     displayStats();
+    createScatterplot(); 
 }
 
 function processCommits() {
@@ -42,20 +46,48 @@ function processCommits() {
     });
 }
 
+function createScatterplot() {
+    processCommits();
+
+    console.log("Commits:", commits);
+
+    const svg = d3
+      .select('#chart')
+      .append('svg')
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .style('overflow', 'visible');
+
+    const xScale = d3
+      .scaleTime()
+      .domain(d3.extent(commits, (d) => d.datetime))
+      .range([0, width])
+      .nice();
+
+    const yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
+
+    const dots = svg.append('g').attr('class', 'dots');
+
+    dots
+      .selectAll('circle')
+      .data(commits)
+      .join('circle')
+      .attr('cx', (d) => xScale(d.datetime))
+      .attr('cy', (d) => yScale(d.hourFrac))
+      .attr('r', 5)
+      .attr('fill', 'steelblue');
+}
+
 function displayStats() {
     processCommits();
 
     const dl = d3.select('#stats').append('dl').attr('class', 'stats');
 
-    // Total LOC
     dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
     dl.append('dd').text(data.length);
 
-    // Total commits
     dl.append('dt').text('Total commits');
     dl.append('dd').text(commits.length);
 
-    // Additional stats
     dl.append('dt').text('Number of files');
     dl.append('dd').text(d3.group(data, d => d.file).size);
 
