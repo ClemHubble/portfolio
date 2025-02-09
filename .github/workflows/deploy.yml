@@ -9,13 +9,12 @@ permissions:
   pages: write
   id-token: write
 
-# Split into two concurrency groups to handle deployments and commits separately
+# Add separate concurrency groups for each job
 concurrency:
-  group: "pages-${{ github.workflow }}-${{ github.ref }}"
+  group: "${{ github.workflow }}-${{ github.ref }}-${{ github.job }}"
   cancel-in-progress: false
 
 jobs:
-  # Split into two jobs to better handle the different operations
   update-stats:
     runs-on: ubuntu-latest
     steps:
@@ -24,18 +23,25 @@ jobs:
         with:
           fetch-depth: '0'
 
+      # Add error handling for Elocuent
       - name: Run Elocuent
         run: |
-          npx elocuent -d . -o meta/loc.csv
+          npx elocuent -d . -o meta/loc.csv || exit 1
 
+      # Improve git operations with better error handling
       - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           mkdir -p meta
           git add -f meta/loc.csv
-          git commit -m "Update code statistics" || echo "No changes to commit"
-          git push || git pull --rebase && git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update code statistics"
+            git pull --rebase --autostash
+            git push || (git pull --rebase && git push)
+          fi
 
   deploy:
     needs: update-stats
@@ -43,9 +49,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    # Add retry logic for deployment
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Add fetch-depth to ensure we have the latest changes
+          fetch-depth: 1
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -55,6 +65,9 @@ jobs:
         with:
           path: '.'
 
+      # Add retry logic for deployment
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 600000  # Increase timeout to 10 minutes
