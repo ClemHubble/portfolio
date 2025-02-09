@@ -11,8 +11,7 @@ async function loadData() {
         datetime: new Date(row.datetime),
     }));
     
-    processCommits();
-    console.log(commits);
+    displayStats();
 }
 
 function processCommits() {
@@ -41,6 +40,38 @@ function processCommits() {
         
         return ret;
     });
+}
+
+function displayStats() {
+    processCommits();
+
+    const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+
+    // Total LOC
+    dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
+    dl.append('dd').text(data.length);
+
+    // Total commits
+    dl.append('dt').text('Total commits');
+    dl.append('dd').text(commits.length);
+
+    // Additional stats
+    dl.append('dt').text('Number of files');
+    dl.append('dd').text(d3.group(data, d => d.file).size);
+
+    dl.append('dt').text('Maximum file length (in lines)');
+    dl.append('dd').text(d3.max(data, d => d.line));
+
+    dl.append('dt').text('Average file length (in lines)');
+    dl.append('dd').text(d3.mean(d3.rollups(data, v => d3.max(v, d => d.line), d => d.file), d => d[1]));
+
+    dl.append('dt').text('Time of day most work is done');
+    const workByPeriod = d3.rollups(
+        data,
+        v => v.length,
+        d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' })
+    );
+    dl.append('dd').text(d3.greatest(workByPeriod, d => d[1])?.[0]);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

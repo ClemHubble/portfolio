@@ -243,3 +243,28 @@ svg:has(path:hover) {
   font-weight: bold;
   color: var(--color);
 }
+
+.stats {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+}
+
+.stats dt {
+  font-weight: bold;
+  color: #333;
+}
+
+.stats dd {
+  margin: 0;
+  color: #555;
+}
