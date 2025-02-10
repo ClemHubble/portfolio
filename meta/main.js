@@ -19,7 +19,7 @@ async function loadData() {
 }
 
 function processCommits() {
-    const commitMap = new Map(); // Track latest file length per file
+    const commitMap = new Map(); 
 
     commits = d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
         let first = lines[0];
@@ -29,7 +29,6 @@ function processCommits() {
         let additions = totalChanges;
         let deletions = 0;
 
-        // Infer deletions based on file length reduction
         for (const entry of lines) {
             const prevLength = commitMap.get(entry.file) || 0;
             const lengthDiff = prevLength - entry.length;
