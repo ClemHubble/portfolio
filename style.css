@@ -274,6 +274,8 @@ dl.info {
   grid-template-columns: auto 1fr;
   gap: 0.5em;
   margin: 0;
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
 }
 
 dl.info dt {
@@ -286,15 +288,31 @@ dl.info dd {
   font-weight: 500;
 }
 
+dl.info[hidden]:not(:hover, :focus-within) {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .tooltip {
   position: fixed;
   top: 1em;
   left: 1em;
-  background: var(--background-color);
-  padding: 1em;
+  background: rgba(255, 255, 255, 0.9); /* Light semi-transparent background */
+  padding: 0.75em 1em;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Softer rounded edges */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+  backdrop-filter: blur(8px); /* Frosted glass effect */
+  font-size: 0.9em;
+  line-height: 1.4;
+  max-width: 250px;
+  pointer-events: none; /* Ensures tooltip doesn't interfere with mouse events */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.2s ease-in-out;
+}
+
+.tooltip.visible {
+  opacity: 1; /* Make visible when needed */
 }
 
 circle {
@@ -311,4 +329,15 @@ circle:hover {
   width: 100%;
   height: auto;
   max-width: 800px; 
+}
+
+#commit-tooltip {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+}
+
+#commit-tooltip.visible {
+  opacity: 1;
+  visibility: visible;
 }

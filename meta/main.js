@@ -62,8 +62,8 @@ function createScatterplot() {
 
     console.log("Commits:", commits);
 
-    const width = 800;  
-    const height = 400; 
+    const width = 800;
+    const height = 400;
 
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
 
@@ -90,7 +90,7 @@ function createScatterplot() {
 
     const yScale = d3
         .scaleLinear()
-        .domain([24, 0])  
+        .domain([24, 0])
         .range([usableArea.bottom, usableArea.top]);
 
     svg.append('g')
@@ -101,18 +101,18 @@ function createScatterplot() {
                 .tickSize(-usableArea.width)
                 .tickFormat('')
         )
-        .style('color', '#ccc')  
+        .style('color', '#ccc')
         .style('opacity', 0.3)
         .call(g => {
-            g.selectAll('.domain').remove();  
+            g.selectAll('.domain').remove();
             g.selectAll('line').style('stroke-dasharray', '2,2');
         });
 
-    const xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat('%b %d')); 
+    const xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat('%b %d'));
     const yAxis = d3
         .axisLeft(yScale)
-        .tickFormat((d) => (d === 24 ? '24' : String(d).padStart(2, '0') + ':00')) 
-        .ticks(12); 
+        .tickFormat((d) => (d === 24 ? '24' : String(d).padStart(2, '0') + ':00'))
+        .ticks(12);
 
     svg.append('g')
         .attr('class', 'x-axis')
@@ -129,6 +129,7 @@ function createScatterplot() {
         .style('stroke', '#000');
 
     function updateTooltipContent(commit) {
+        const tooltip = document.getElementById('commit-tooltip');
         const link = document.getElementById('commit-link');
         const date = document.getElementById('commit-date');
         const time = document.getElementById('commit-time');
@@ -136,25 +137,31 @@ function createScatterplot() {
         const lines = document.getElementById('commit-lines');
 
         if (!commit || Object.keys(commit).length === 0) {
-            link.href = '';
-            link.textContent = '';
-            date.textContent = '';
-            time.textContent = '';
-            author.textContent = '';
-            lines.textContent = '';
+            tooltip.hidden = true;  
             return;
         }
 
         link.href = commit.url;
         link.textContent = commit.id;
-        date.textContent = commit.datetime?.toLocaleString('en', {
-            dateStyle: 'full',
-        });
-        time.textContent = commit.datetime?.toLocaleString('en', {
-            timeStyle: 'short',
-        });
+        date.textContent = commit.datetime?.toLocaleString('en', { dateStyle: 'full' });
+        time.textContent = commit.datetime?.toLocaleString('en', { timeStyle: 'short' });
         author.textContent = commit.author;
         lines.textContent = `+${commit.additions} -${commit.deletions}`;
+    }
+
+    function updateTooltipVisibility(isVisible) {
+        const tooltip = document.getElementById('commit-tooltip');
+        if (isVisible) {
+            tooltip.classList.add('visible');
+        } else {
+            tooltip.classList.remove('visible');
+        }
+    }
+
+    function updateTooltipPosition(event) {
+        const tooltip = document.getElementById('commit-tooltip');
+        tooltip.style.left = `${event.clientX + 10}px`; 
+        tooltip.style.top = `${event.clientY + 10}px`;
     }
 
     const dots = svg.append('g').attr('class', 'dots');
@@ -165,7 +172,7 @@ function createScatterplot() {
         .join('circle')
         .attr('cx', (d) => xScale(d.datetime))
         .attr('cy', (d) => yScale(d.hourFrac))
-        .attr('r', 3.5)  
+        .attr('r', 3.5)
         .attr('fill', (d) => {
             const hour = d.hourFrac;
             return hour < 6 || hour >= 18 ? '#4477AA' : '#DD7733';
@@ -173,11 +180,18 @@ function createScatterplot() {
         .attr('opacity', 0.8)
         .on('mouseenter', (event, commit) => {
             updateTooltipContent(commit);
+            updateTooltipVisibility(true);
+            updateTooltipPosition(event);
+        })
+        .on('mousemove', (event) => {
+            updateTooltipPosition(event);
         })
         .on('mouseleave', () => {
             updateTooltipContent({});
-        }); 
+            updateTooltipVisibility(false);
+        });
 }
+
 
 
 function displayStats() {
