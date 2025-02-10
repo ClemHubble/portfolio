@@ -56,7 +56,6 @@ function processCommits() {
     });
 }
 
-
 function createScatterplot() {
     processCommits();
 
@@ -164,33 +163,47 @@ function createScatterplot() {
         tooltip.style.top = `${event.clientY + 10}px`;
     }
 
+    // Step 4.1: Create a radius scale based on the number of lines edited
+    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+
+    const rScale = d3
+        .scaleSqrt() // Use square root scale to make the area of the circles proportional
+        .domain([minLines, maxLines])
+        .range([2, 30]); // Adjust these values based on experimentation
+
+    // Step 4.2: Sort commits by size (total lines) in descending order
+    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+
     const dots = svg.append('g').attr('class', 'dots');
 
     dots
         .selectAll('circle')
-        .data(commits)
+        .data(sortedCommits)
         .join('circle')
         .attr('cx', (d) => xScale(d.datetime))
         .attr('cy', (d) => yScale(d.hourFrac))
-        .attr('r', 3.5)
-        .attr('fill', (d) => {
+        .attr('r', (d) => rScale(d.totalLines)) // Step 4.1: Use the rScale to adjust dot size
+        .style('fill', (d) => {
             const hour = d.hourFrac;
             return hour < 6 || hour >= 18 ? '#4477AA' : '#DD7733';
         })
-        .attr('opacity', 0.8)
+        .style('fill-opacity', 0.7) // Step 4.2: Add transparency for overlapping dots
         .on('mouseenter', (event, commit) => {
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
+            d3.select(event.currentTarget).style('fill-opacity', 1); // Full opacity on hover
         })
         .on('mousemove', (event) => {
             updateTooltipPosition(event);
         })
-        .on('mouseleave', () => {
+        .on('mouseleave', (event) => {
             updateTooltipContent({});
             updateTooltipVisibility(false);
+            d3.select(event.currentTarget).style('fill-opacity', 0.7); // Restore transparency
         });
 }
+
 
 
 
