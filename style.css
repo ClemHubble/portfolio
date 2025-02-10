@@ -297,22 +297,22 @@ dl.info[hidden]:not(:hover, :focus-within) {
   position: fixed;
   top: 1em;
   left: 1em;
-  background: rgba(255, 255, 255, 0.9); /* Light semi-transparent background */
+  background: rgba(255, 255, 255, 0.9); 
   padding: 0.75em 1em;
   border: 1px solid var(--border-color);
-  border-radius: 8px; /* Softer rounded edges */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow */
-  backdrop-filter: blur(8px); /* Frosted glass effect */
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+  backdrop-filter: blur(8px); 
   font-size: 0.9em;
   line-height: 1.4;
   max-width: 250px;
-  pointer-events: none; /* Ensures tooltip doesn't interfere with mouse events */
-  opacity: 0; /* Hidden by default */
+  pointer-events: none; 
+  opacity: 0; 
   transition: opacity 0.2s ease-in-out;
 }
 
 .tooltip.visible {
-  opacity: 1; /* Make visible when needed */
+  opacity: 1; 
 }
 
 circle {
