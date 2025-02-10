@@ -1,5 +1,8 @@
 let data = [];
 let commits = [];
+let xScale;
+let yScale;
+let brushSelection = null;
 
 const width = 1000;
 const height = 600;
@@ -56,6 +59,85 @@ function processCommits() {
     });
 }
 
+function brushSelector() {
+    const svg = document.querySelector('svg');
+    d3.select(svg)
+      .call(d3.brush().on('start brush end', brushed));
+      
+  }
+  
+  function brushed(event) {
+    brushSelection = event.selection;
+    updateSelection();
+    const selectedCommits = updateSelectionCount();
+    updateLanguageBreakdown(selectedCommits);
+  }
+  
+  function isCommitSelected(commit) {
+    if (!brushSelection) return false;
+    
+    const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
+    const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
+
+    const x = xScale(commit.datetime); // Ensure it's datetime
+    const y = yScale(commit.hourFrac);
+
+    return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+    }
+  
+    function updateSelection() {
+        d3.selectAll('circle')
+          .classed('selected', d => isCommitSelected(d))
+          .style('fill', d => isCommitSelected(d) ? '#ff6b6b' : (d.hourFrac < 6 || d.hourFrac >= 18 ? '#4477AA' : '#DD7733'));
+    }
+    
+  
+  function updateSelectionCount() {
+    const selectedCommits = brushSelection
+      ? commits.filter(isCommitSelected)
+      : [];
+  
+    const countElement = document.getElementById('selection-count');
+    countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
+  
+    return selectedCommits;
+  }
+  
+  function updateLanguageBreakdown(selectedCommits) {
+    const container = document.getElementById('language-breakdown');
+
+    if (!selectedCommits || selectedCommits.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    // Get lines data from the original dataset
+    const selectedLines = data.filter(d => 
+        selectedCommits.some(commit => commit.id === d.commit)
+    );
+
+    const breakdown = d3.rollup(
+        selectedLines,
+        v => v.length,
+        d => d.type
+    );
+
+    container.innerHTML = '';
+
+    for (const [language, count] of breakdown) {
+        const proportion = count / selectedLines.length;
+        const formatted = d3.format('.1~%')(proportion);
+
+        container.innerHTML += `
+            <dt>${language}</dt>
+            <dd>${count} lines (${formatted})</dd>
+        `;
+    }
+
+    return breakdown;
+}
+
+
 function createScatterplot() {
     processCommits();
 
@@ -81,14 +163,12 @@ function createScatterplot() {
         .attr('viewBox', `0 0 ${width} ${height}`)
         .style('overflow', 'visible');
 
-    const xScale = d3
-        .scaleTime()
+    xScale = d3.scaleTime()
         .domain(d3.extent(commits, (d) => d.datetime))
         .range([usableArea.left, usableArea.right])
         .nice();
-
-    const yScale = d3
-        .scaleLinear()
+    
+    yScale = d3.scaleLinear()
         .domain([24, 0])
         .range([usableArea.bottom, usableArea.top]);
 
@@ -200,6 +280,7 @@ function createScatterplot() {
             updateTooltipVisibility(false);
             d3.select(event.currentTarget).style('fill-opacity', 0.7); 
         });
+    brushSelector();
 }
 
 function displayStats() {
