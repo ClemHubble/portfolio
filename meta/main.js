@@ -79,7 +79,7 @@ function brushSelector() {
     const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
     const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
 
-    const x = xScale(commit.datetime); // Ensure it's datetime
+    const x = xScale(commit.datetime); 
     const y = yScale(commit.hourFrac);
 
     return x >= min.x && x <= max.x && y >= min.y && y <= max.y;

@@ -344,7 +344,7 @@ circle:hover {
 
 @keyframes marching-ants {
   to {
-    stroke-dashoffset: -8; /* 5 + 3 */
+    stroke-dashoffset: -8; 
   }
 }
 
