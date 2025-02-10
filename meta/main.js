@@ -19,37 +19,52 @@ async function loadData() {
 }
 
 function processCommits() {
+    const commitMap = new Map(); // Track latest file length per file
+
     commits = d3.groups(data, (d) => d.commit).map(([commit, lines]) => {
         let first = lines[0];
         let { author, date, time, timezone, datetime } = first;
-        
-        let ret = {
+
+        let totalChanges = lines.length;
+        let additions = totalChanges;
+        let deletions = 0;
+
+        // Infer deletions based on file length reduction
+        for (const entry of lines) {
+            const prevLength = commitMap.get(entry.file) || 0;
+            const lengthDiff = prevLength - entry.length;
+
+            if (lengthDiff > 0) {
+                deletions += lengthDiff;
+            }
+
+            commitMap.set(entry.file, entry.length);
+        }
+
+        return {
             id: commit,
-            url: 'https://github.com/portfolio/commit/' + commit,
+            url: `https://github.com/portfolio/commit/${commit}`,
             author,
             date,
             time,
             timezone,
             datetime,
             hourFrac: datetime.getHours() + datetime.getMinutes() / 60,
-            totalLines: lines.length,
+            totalLines: totalChanges,
+            additions: additions,
+            deletions: deletions
         };
-        
-        Object.defineProperty(ret, 'lines', {
-            value: lines,
-            enumerable: false, 
-            writable: false,  
-            configurable: false, 
-        });
-        
-        return ret;
     });
 }
+
 
 function createScatterplot() {
     processCommits();
 
     console.log("Commits:", commits);
+
+    const width = 800;  
+    const height = 400; 
 
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
 
@@ -114,6 +129,35 @@ function createScatterplot() {
         .select('.domain')
         .style('stroke', '#000');
 
+    function updateTooltipContent(commit) {
+        const link = document.getElementById('commit-link');
+        const date = document.getElementById('commit-date');
+        const time = document.getElementById('commit-time');
+        const author = document.getElementById('commit-author');
+        const lines = document.getElementById('commit-lines');
+
+        if (!commit || Object.keys(commit).length === 0) {
+            link.href = '';
+            link.textContent = '';
+            date.textContent = '';
+            time.textContent = '';
+            author.textContent = '';
+            lines.textContent = '';
+            return;
+        }
+
+        link.href = commit.url;
+        link.textContent = commit.id;
+        date.textContent = commit.datetime?.toLocaleString('en', {
+            dateStyle: 'full',
+        });
+        time.textContent = commit.datetime?.toLocaleString('en', {
+            timeStyle: 'short',
+        });
+        author.textContent = commit.author;
+        lines.textContent = `+${commit.additions} -${commit.deletions}`;
+    }
+
     const dots = svg.append('g').attr('class', 'dots');
 
     dots
@@ -127,7 +171,13 @@ function createScatterplot() {
             const hour = d.hourFrac;
             return hour < 6 || hour >= 18 ? '#4477AA' : '#DD7733';
         })
-        .attr('opacity', 0.8); 
+        .attr('opacity', 0.8)
+        .on('mouseenter', (event, commit) => {
+            updateTooltipContent(commit);
+        })
+        .on('mouseleave', () => {
+            updateTooltipContent({});
+        }); 
 }
 
 
