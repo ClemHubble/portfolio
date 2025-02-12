@@ -110,8 +110,7 @@ function brushSelector() {
         container.innerHTML = '';
         return;
     }
-
-    // Get lines data from the original dataset
+    
     const selectedLines = data.filter(d => 
         selectedCommits.some(commit => commit.id === d.commit)
     );
