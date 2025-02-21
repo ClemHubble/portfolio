@@ -109,6 +109,9 @@ article {
   display: grid;
   grid-template-rows: subgrid;
   grid-row: span 3;
+  img {
+    width: 300px;
+  };
 }
 
 h1 {
