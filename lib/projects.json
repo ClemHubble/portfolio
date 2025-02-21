@@ -1,5 +1,23 @@
 [
     {
+        "title": "DSC 106 Lab 7",
+        "year": "2025",
+        "image": "https://ClemHubble.github.io/portfolio/images/download.jpg",
+        "description": "A lab assignment to visualize bike data in Boston and Cambridge."
+    },
+    {
+        "title": "DSC 106 Lab 6",
+        "year": "2025",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "A DSC 106 assignment that is about using D3 on quantitative data."
+    },
+    {
+        "title": "DSC 106 Lab 5",
+        "year": "2025",
+        "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+        "description": "A DSC 106 assignment that is about using D3 on categorical data."
+    },
+    {
         "title": "TIDMAD",
         "year": "2025",
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
