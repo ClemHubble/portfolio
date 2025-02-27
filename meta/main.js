@@ -16,7 +16,7 @@ async function loadData() {
         date: new Date(row.date + 'T00:00' + row.timezone),
         datetime: new Date(row.datetime),
     }));
-    
+
     displayStats();
     createScatterplot(); 
 }
@@ -62,20 +62,19 @@ function processCommits() {
 function brushSelector() {
     const svg = document.querySelector('svg');
     d3.select(svg)
-      .call(d3.brush().on('start brush end', brushed));
-      
-  }
-  
-  function brushed(event) {
+        .call(d3.brush().on('start brush end', brushed));
+}
+
+function brushed(event) {
     brushSelection = event.selection;
     updateSelection();
     const selectedCommits = updateSelectionCount();
     updateLanguageBreakdown(selectedCommits);
-  }
-  
-  function isCommitSelected(commit) {
+}
+
+function isCommitSelected(commit) {
     if (!brushSelection) return false;
-    
+
     const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
     const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
 
@@ -83,34 +82,33 @@ function brushSelector() {
     const y = yScale(commit.hourFrac);
 
     return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
-    }
-  
-    function updateSelection() {
-        d3.selectAll('circle')
-          .classed('selected', d => isCommitSelected(d))
-          .style('fill', d => isCommitSelected(d) ? '#ff6b6b' : (d.hourFrac < 6 || d.hourFrac >= 18 ? '#4477AA' : '#DD7733'));
-    }
-    
-  
-  function updateSelectionCount() {
+}
+
+function updateSelection() {
+    d3.selectAll('circle')
+        .classed('selected', d => isCommitSelected(d))
+        .style('fill', d => isCommitSelected(d) ? '#ff6b6b' : (d.hourFrac < 6 || d.hourFrac >= 18 ? '#4477AA' : '#DD7733'));
+}
+
+function updateSelectionCount() {
     const selectedCommits = brushSelection
-      ? commits.filter(isCommitSelected)
-      : [];
-  
+        ? commits.filter(isCommitSelected)
+        : [];
+
     const countElement = document.getElementById('selection-count');
     countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
-  
+
     return selectedCommits;
-  }
-  
-  function updateLanguageBreakdown(selectedCommits) {
+}
+
+function updateLanguageBreakdown(selectedCommits) {
     const container = document.getElementById('language-breakdown');
 
     if (!selectedCommits || selectedCommits.length === 0) {
         container.innerHTML = '';
         return;
     }
-    
+
     const selectedLines = data.filter(d => 
         selectedCommits.some(commit => commit.id === d.commit)
     );
@@ -135,7 +133,6 @@ function brushSelector() {
 
     return breakdown;
 }
-
 
 function createScatterplot() {
     processCommits();
@@ -166,7 +163,7 @@ function createScatterplot() {
         .domain(d3.extent(commits, (d) => d.datetime))
         .range([usableArea.left, usableArea.right])
         .nice();
-    
+
     yScale = d3.scaleLinear()
         .domain([24, 0])
         .range([usableArea.bottom, usableArea.top]);
@@ -279,6 +276,7 @@ function createScatterplot() {
             updateTooltipVisibility(false);
             d3.select(event.currentTarget).style('fill-opacity', 0.7); 
         });
+
     brushSelector();
 }
 
