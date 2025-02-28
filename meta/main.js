@@ -4,6 +4,12 @@ let selectedCommits = [];
 let xScale;
 let yScale;
 let brushSelection = null;
+let commitProgress = 100;
+let timeScale; //= d3.scaleTime([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)], [0, 100]);
+let commitMaxTime; //= timeScale.invert(commitProgress);
+
+const timeSlider = document.getElementById('timeSlider');
+const selectedTime = document.getElementById('selectedTime');
 
 const width = 1000;
 const height = 600;
@@ -58,6 +64,16 @@ function processCommits() {
             deletions: deletions
         };
     });
+}
+
+function updateTimeDisplay() {
+    let commitProgress = Number(timeSlider.value);
+    if (commitProgress === -1){
+        selectedTime.textContent = 'any time';
+    } else {
+        selectedTime.textContent = timeScale.invert(commitProgress).toLocaleString();
+        console.log(timeScale.invert(commitProgress).toLocaleString()); 
+    }
 }
 
 function brushSelector() {
@@ -310,4 +326,9 @@ function displayStats() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
+    timeScale = d3.scaleTime([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)], [0, 100]);
+    commitMaxTime = timeScale.invert(commitProgress);
 });
+
+timeSlider.addEventListener('input', updateTimeDisplay);
+updateTimeDisplay();
