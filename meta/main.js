@@ -1,5 +1,6 @@
 let data = [];
 let commits = [];
+let selectedCommits = [];
 let xScale;
 let yScale;
 let brushSelection = null;
@@ -65,23 +66,26 @@ function brushSelector() {
         .call(d3.brush().on('start brush end', brushed));
 }
 
-function brushed(event) {
-    brushSelection = event.selection;
+function brushed(evt) {
+    brushSelection = evt.selection;
+    selectedCommits = !brushSelection
+      ? []
+      : commits.filter((commit) => {
+          let min = { x: brushSelection[0][0], y: brushSelection[0][1] };
+          let max = { x: brushSelection[1][0], y: brushSelection[1][1] };
+          let x = xScale(commit.datetime);
+          let y = yScale(commit.hourFrac);
+  
+          return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+        });
     updateSelection();
-    const selectedCommits = updateSelectionCount();
-    updateLanguageBreakdown(selectedCommits);
+    updateSelectionCount();
+    updateLanguageBreakdown(selectedCommits); 
+
 }
 
 function isCommitSelected(commit) {
-    if (!brushSelection) return false;
-
-    const min = { x: brushSelection[0][0], y: brushSelection[0][1] };
-    const max = { x: brushSelection[1][0], y: brushSelection[1][1] };
-
-    const x = xScale(commit.datetime); 
-    const y = yScale(commit.hourFrac);
-
-    return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
+    return selectedCommits.some(sc => sc.id === commit.id);
 }
 
 function updateSelection() {
@@ -91,15 +95,10 @@ function updateSelection() {
 }
 
 function updateSelectionCount() {
-    const selectedCommits = brushSelection
-        ? commits.filter(isCommitSelected)
-        : [];
-
     const countElement = document.getElementById('selection-count');
     countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
-
-    return selectedCommits;
 }
+
 
 function updateLanguageBreakdown(selectedCommits) {
     const container = document.getElementById('language-breakdown');
@@ -266,7 +265,7 @@ function createScatterplot() {
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
-            d3.select(event.currentTarget).style('fill-opacity', 1); 
+            d3.select(event.currentTarget).classed('selected', true).style('fill-opacity', 1); 
         })
         .on('mousemove', (event) => {
             updateTooltipPosition(event);
@@ -274,7 +273,7 @@ function createScatterplot() {
         .on('mouseleave', (event) => {
             updateTooltipContent({});
             updateTooltipVisibility(false);
-            d3.select(event.currentTarget).style('fill-opacity', 0.7); 
+            d3.select(event.currentTarget).classed('selected', false).style('fill-opacity', 0.7); 
         });
 
     brushSelector();
