@@ -35,12 +35,15 @@
 
     <div id="stats"></div> 
 
-    <label>
-        Show commits until:
-        <input type="range" id="timeSlider" min="-1" max="100" value="-1">
+    <div class="slider-container">
+        <label>
+            Show commits until:
+            <input type="range" id="timeSlider" min="-1" max="100" value="-1">
+        </label>
         <time id="selectedTime"></time>
-        <!-- <em id="anyTime">(any time)</em> -->
-      </label>
+    </div>
+
+    <dl class="files"></dl>
 
     <h2>Commits by time of day</h2>
     <div id="chart"></div> 

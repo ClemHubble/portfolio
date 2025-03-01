@@ -362,3 +362,45 @@ circle:hover {
 circle.selected {
   fill: #ff6b6b;
 }
+
+.slider-container {
+  position: relative; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#selectedTime {
+  position: absolute; 
+  top: 0;
+  right: 0;
+  text-align: right;
+  white-space: nowrap;
+  padding: 5px; 
+}
+
+.files {
+  font-family: monospace;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.files dt {
+  margin-bottom: 5px;
+}
+
+.files dd {
+  margin-left: 0;
+  margin-bottom: 10px;
+}
+
+.slider-container label {
+  width: 100%;
+}
+
+.slider-container input[type="range"] {
+  width: 100%;
+}

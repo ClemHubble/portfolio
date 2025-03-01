@@ -88,6 +88,7 @@ function filterCommitsByTime() {
     filteredCommits = commits.filter(commit => commit.datetime <= commitMaxTime);
     
     updateScatterplot(filteredCommits);
+    updateFileVisualization(); 
     
     if (selectedCommits.length > 0) {
         selectedCommits = selectedCommits.filter(commit => 
@@ -356,11 +357,69 @@ function displayStats() {
     dl.append('dd').text(d3.greatest(workByPeriod, d => d[1])?.[0]);
 }
 
+function updateFileVisualization() {
+    d3.select('.files').selectAll('div').remove(); 
+
+    const filteredCommitIds = filteredCommits.map(commit => commit.id);
+    const lines = data.filter(line => filteredCommitIds.includes(line.commit));
+    
+    const files = d3.groups(lines, d => d.file)
+        .map(([name, lines]) => {
+            return { 
+                name, 
+                lines,
+                lineCount: lines.length
+            };
+        });
+
+    let filesContainer = d3.select('.files').selectAll('div')
+        .data(files)
+        .enter()
+        .append('div');
+
+    filesContainer.append('dt')
+        .append('code')
+        .text(d => `${d.name}`);
+    
+    filesContainer.append('dd')
+        .text(d => `${d.lineCount} lines`);
+}
+
+styleElement.textContent += `
+  .files {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 20px;  /* To add some spacing between slider and the file list */
+  }
+  .files > div {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+  .files dt {
+    grid-column: 1;
+    font-weight: bold;
+  }
+  .files dd {
+    grid-column: 2;
+    margin: 0;
+  }
+`;
+document.head.appendChild(styleElement);
+
+const filesContainer = document.querySelector('.files');
+
+const timeSliderInput = document.querySelector('#timeSlider');
+
+timeSliderInput.parentNode.insertBefore(filesContainer, timeSliderInput.nextElementSibling);
+
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadData();
-    timeScale = d3.scaleTime()
-        .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
-        .range([0, 100]);
-    timeSlider.addEventListener('input', updateTimeDisplay);
-    updateTimeDisplay();
+  await loadData();
+  timeScale = d3.scaleTime()
+    .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
+    .range([0, 100]);
+
+  timeSliderInput.addEventListener('input', updateTimeDisplay);
+  updateTimeDisplay();
 });
