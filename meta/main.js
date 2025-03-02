@@ -363,7 +363,7 @@ function updateFileVisualization() {
     const filteredCommitIds = filteredCommits.map(commit => commit.id);
     const lines = data.filter(line => filteredCommitIds.includes(line.commit));
     
-    const files = d3.groups(lines, d => d.file)
+    let files = d3.groups(lines, d => d.file)
         .map(([name, lines]) => {
             return { 
                 name, 
@@ -371,6 +371,8 @@ function updateFileVisualization() {
                 lineCount: lines.length
             };
         });
+
+    files = d3.sort(files, (d) => -d.lines.length);
 
     let filesContainer = d3.select('.files').selectAll('div')
         .data(files)
