@@ -357,6 +357,45 @@ function displayStats() {
     dl.append('dd').text(d3.greatest(workByPeriod, d => d[1])?.[0]);
 }
 
+// function updateFileVisualization() {
+//     d3.select('.files').selectAll('div').remove(); 
+
+//     const filteredCommitIds = filteredCommits.map(commit => commit.id);
+//     const lines = data.filter(line => filteredCommitIds.includes(line.commit));
+    
+//     let files = d3.groups(lines, d => d.file)
+//         .map(([name, lines]) => {
+//             return { 
+//                 name, 
+//                 lines,
+//                 lineCount: lines.length
+//             };
+//         });
+
+//     files = d3.sort(files, (d) => -d.lines.length);
+
+//     let filesContainer = d3.select('.files').selectAll('div')
+//         .data(files)
+//         .enter()
+//         .append('div');
+
+//     filesContainer.append('dt')
+//         .append('code')
+//         .html(d => `${d.name} <small>(${d.lineCount} lines)</small>`);
+
+//     filesContainer.append('dd')
+//         .selectAll('div')
+//         .data(d => d.lines) 
+//         .enter()
+//         .append('div') 
+//         .attr('class', 'line')
+//         .style('width', '10px') 
+//         .style('height', '10px')
+//         .style('background-color', '#4477AA') 
+//         .style('border-radius', '50%') 
+//         .style('margin-bottom', '2px'); 
+// }
+
 function updateFileVisualization() {
     d3.select('.files').selectAll('div').remove(); 
 
@@ -374,6 +413,7 @@ function updateFileVisualization() {
 
     files = d3.sort(files, (d) => -d.lines.length);
 
+    let fileTypeColors = d3.scaleOrdinal(d3.schemeTableau10); 
     let filesContainer = d3.select('.files').selectAll('div')
         .data(files)
         .enter()
@@ -391,7 +431,7 @@ function updateFileVisualization() {
         .attr('class', 'line')
         .style('width', '10px') 
         .style('height', '10px')
-        .style('background-color', '#4477AA') 
+        .style('background', d => fileTypeColors(d.file)) 
         .style('border-radius', '50%') 
         .style('margin-bottom', '2px'); 
 }

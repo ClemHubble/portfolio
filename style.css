@@ -132,67 +132,69 @@ h3, h4, h5, h6 {
 }
 
 #profile-stats {
-  border: 1px solid;
+  border: 1px solid var(--border-color); 
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px; 
   margin: 16px 0;
   max-width: 600px;
   background-color: var(--background-color);
   color: var(--text-color);
-  border-color: var(--border-color);
+  font-family: sans-serif; 
+}
+
+#profile-stats table {
+  width: 100%;
+  border-collapse: collapse; 
+}
+
+#profile-stats th, #profile-stats td {
+  padding: 10px; 
+  text-align: center;
+}
+
+#profile-stats th {
+  font-weight: 500; 
+  color: var(--text-color); 
+  font-size: 0.9em; 
+}
+
+#profile-stats td {
+  font-weight: 600; 
+  color: var(--value-color); 
+  font-size: 1.1em; 
+}
+
+#profile-stats td:not(:last-child), #profile-stats th:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+
+@media (max-width: 480px) {
+  #profile-stats th, #profile-stats td {
+    padding: 8px; 
+    font-size: 0.85em; 
+  }
 }
 
 /* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color: #f9f9f9;
-    --text-color: #000;
-    --border-color: #ccc;
+    --background-color: #ffffff;
+    --text-color: #333333;
+    --border-color: #e0e0e0;
+    --accent-color: #0366d6;
+    --value-color: #24292e;
   }
 }
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background-color: #1e1e1e;
-    --text-color: #fff;
-    --border-color: #444;
+    --background-color: #22272e;
+    --text-color: #adbac7;
+    --border-color: #444c56;
+    --accent-color: #539bf5;
+    --value-color: #cdd9e5;
   }
-}
-
-#profile-stats dl {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 8px; 
-  margin: 0;
-  padding: 0;
-}
-
-#profile-stats dt {
-  font-weight: bold;
-  text-align: center;
-  grid-row: 1; 
-}
-
-#profile-stats dd {
-  margin: 0;
-  text-align: center;
-  grid-row: 2; 
-}
-
-.project-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5em; 
-}
-
-.project-year {
-  font-family: Baskerville, serif;
-  font-variant-numeric: oldstyle-nums;
-  font-style: italic;
-  font-size: 0.9em;
-  margin-top: 0.5em; 
 }
 
 svg {

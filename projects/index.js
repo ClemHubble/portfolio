@@ -12,12 +12,21 @@ const githubData = await fetchGitHubData('ClemHubble');
 const profileStats = document.querySelector('#profile-stats');
 
 if (profileStats) {
-    profileStats.innerHTML = `
-          <dl>
-            <dt>Public Repos:</dt><dd>${githubData.public_repos}</dd>
-            <dt>Public Gists:</dt><dd>${githubData.public_gists}</dd>
-            <dt>Followers:</dt><dd>${githubData.followers}</dd>
-            <dt>Following:</dt><dd>${githubData.following}</dd>
-          </dl>
-      `;
-  }
+  profileStats.innerHTML = 
+    `
+    <table>
+    <tr>
+      <th> Public Repos </th>
+      <th> Public Gists </th>
+      <th> Followers </th>
+      <th> Following </th>
+    </tr>
+    <tr>
+    <td>${githubData.public_repos}</td>
+    <td>${githubData.public_gists}</td>
+    <td>${githubData.followers}</td>
+    <td>${githubData.following}</td>
+    </tr>
+    </table>
+    `;
+}
