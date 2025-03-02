@@ -379,10 +379,19 @@ function updateFileVisualization() {
 
     filesContainer.append('dt')
         .append('code')
-        .text(d => `${d.name}`);
-    
+        .html(d => `${d.name} <small>(${d.lineCount} lines)</small>`);
+
     filesContainer.append('dd')
-        .text(d => `${d.lineCount} lines`);
+        .selectAll('div')
+        .data(d => d.lines) 
+        .enter()
+        .append('div') 
+        .attr('class', 'line')
+        .style('width', '10px') 
+        .style('height', '10px')
+        .style('background-color', '#4477AA') 
+        .style('border-radius', '50%') 
+        .style('margin-bottom', '2px'); 
 }
 
 styleElement.textContent += `
