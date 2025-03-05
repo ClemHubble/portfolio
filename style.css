@@ -2,6 +2,9 @@
   --color-accent: oklch(65% 50% 0);
   color-scheme: light dark;
 }
+:global(body) {
+  max-width: min(120ch, 80vw);
+}
 
 body {
   font: 100%/1.5 system-ui;
@@ -370,75 +373,55 @@ circle.selected {
   fill: #ff6b6b;
 }
 
-.slider-container {
-  position: relative; 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
-#selectedTime {
-  position: absolute; 
-  top: 0;
-  right: 0;
-  text-align: right;
-  white-space: nowrap;
-  padding: 5px; 
+#selection-count {
+  font-weight: bold;
 }
 
 .files {
-  font-family: monospace;
-  list-style: none;
-  padding: 0;
-  margin: 20px 0;
+  display: grid;
+  grid-template-columns: max-content auto;
+  column-gap: 2em;
+  row-gap: 4px;
 }
 
 .files dt {
-  margin-bottom: 5px;
+  text-align: left;
+  margin: 0;
+
+  small {
+    display: block;
+    font-size: 0.75em;
+    opacity: 0.7;
+    margin-top: 0.2em;
+  }
 }
 
 .files dd {
-  margin-left: 0;
-  margin-bottom: 10px;
-}
-
-.slider-container label {
-  width: 100%;
-}
-
-.slider-container input[type="range"] {
-  width: 100%;
+  display: flex; 
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15em;
+  padding-top: 0.6em;
+  margin: 0;
 }
 
 .line {
   display: flex;
   width: 0.5em;
   aspect-ratio: 1;
-  background: steelblue;
-  border-radius: 50%;
-}
-
-dd {
-  grid-column: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  align-content: start;
-  gap: 0.15em;
-  padding-top: 0.6em;
-  margin-left: 0;
-}
-
-:global(body) {
-  max-width: min(120ch, 80vw);
+  border-radius: 50%;  
 }
 
 #scrollytelling {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
+}
+
+#scrollytelling-2 {
+  display: grid;
+  grid-template-columns: 50% 50%; 
+  gap: 2em;  
 }
 
 #scroll-container {
@@ -451,25 +434,44 @@ dd {
   margin-bottom: 50px;
 }
 
+#scroll-container-2 {
+  grid-column: 1;
+  position: relative;
+  width: 95%;
+  height: 750px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  margin-bottom: 50px;
+}
+
 #chart {
   grid-column: 2;
 }
 
-#spacer {
-  position: relative;
-  width: 100%;
-  background: none;
+#chart-2 {
+  grid-column: 2;
+
 }
 
-#items-container {
+#spacer, #spacer-2 {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  background: none;
+  pointer-events: none;
+}
+
+#items-container, #items-container-2 {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .item {
-  height: 40px;
+  height: 150px;
   padding: 10px;
   box-sizing: border-box;
   border-bottom: 2px solid #eee;

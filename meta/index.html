@@ -5,59 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta</title>
     <link rel="stylesheet" href="../style.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script> 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <h1>Meta</h1>
+
     <p>This page includes stats about the code of this website.</p>
-    
+
+    <div id="stats"></div>
+
+    <h2>Commits by time of day</h2>
+    <div id="scrollytelling">
+        <div id="scroll-container">
+            <div id="spacer"></div>
+            <div id="items-container"></div>
+        </div>
+        <div id="chart"></div>
+    </div>
+
     <dl id="commit-tooltip" class="info tooltip">
         <dt>Commit</dt>
         <dd>
-            <a href="" id="commit-link" target="_blank"></a>
+          <a href="" id="commit-link" target="_blank"></a>
         </dd>
-
+      
         <dt>Date</dt>
         <dd id="commit-date"></dd>
-
+      
         <dt>Time</dt>
         <dd id="commit-time"></dd>
-
-        <dt>Author</dt>
-        <dd id="commit-author"></dd>
-
-        <dt>Lines</dt>
-        <dd id="commit-lines"></dd>
     </dl>
 
-    <p id="selection-count">No commits selected</p>
-    <dl id="language-breakdown" class="stats"></dl>
+    <dl class="files"></dl>
 
-    <div id="stats"></div> 
-
-    <h2>Commits and File Sizes over Time</h2>
-    <div id="scrollytelling-container">
-        <div id="scrollytelling-commits">
-            <h3>Commits Over Time</h3>
-            <div id="scroll-container">
-                <div id="spacer"></div>
-                <div id="items-container"></div>
-            </div>
-            <div id="chart"></div>
+    <h2>File size over time</h2>
+    <div id="scrollytelling-2">
+        <div id="scroll-container-2">
+            <div id="spacer-2"></div>
+            <div id="items-container-2"></div>
         </div>
-        
-        <div id="scrollytelling-files">
-            <h3>File Size Changes</h3>
-            <div id="scroll-container-files">
-                <div id="spacer-files"></div>
-                <div id="items-container-files"></div>
-            </div>
-            <div id="chart-files"></div>
-            <dl class="files"></dl>
-        </div>
+        <div id="chart-2"></div>
     </div>
 
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="../global.js" type="module"></script>
-    <script src="main.js" type="module"></script>
+    <script src="main.js"></script>
 </body>
 </html>
