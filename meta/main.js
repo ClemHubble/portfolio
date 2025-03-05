@@ -126,19 +126,6 @@ function filterCommitsByTime() {
     updateSelectionCount();
 }
 
-function updateTimeDisplay() {
-    commitProgress = Number(timeSlider.value);
-    if (commitProgress === -1) {
-        selectedTime.textContent = 'any time';
-        filteredCommits = [...commits];
-        updateScatterplot(filteredCommits);
-    } else {
-        commitMaxTime = timeScale.invert(commitProgress);
-        selectedTime.textContent = commitMaxTime.toLocaleString();
-        filterCommitsByTime();
-    }
-}
-
 function brushSelector() {
     const svg = document.querySelector('svg');
     d3.select(svg)
