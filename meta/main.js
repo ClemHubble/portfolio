@@ -443,10 +443,6 @@ document.head.appendChild(styleElement);
 
 const filesContainer = document.querySelector('.files');
 
-// const timeSliderInput = document.querySelector('#timeSlider');
-
-// timeSliderInput.parentNode.insertBefore(filesContainer, timeSliderInput.nextElementSibling);
-
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
     
