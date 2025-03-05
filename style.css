@@ -303,20 +303,6 @@ dl.info[hidden]:not(:hover, :focus-within) {
 
 .tooltip {
   position: fixed;
-  top: 1em;
-  left: 1em;
-  background: rgba(255, 255, 255, 0.9); 
-  padding: 0.75em 1em;
-  border: 1px solid var(--border-color);
-  border-radius: 8px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
-  backdrop-filter: blur(8px); 
-  font-size: 0.9em;
-  line-height: 1.4;
-  max-width: 250px;
-  pointer-events: none; 
-  opacity: 0; 
-  transition: opacity 0.2s ease-in-out;
 }
 
 .tooltip.visible {
@@ -337,22 +323,6 @@ circle:hover {
   width: 100%;
   height: auto;
   max-width: 800px; 
-}
-
-#commit-tooltip {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px;
-  border-radius: 5px;
-  font-size: 14px;
-  pointer-events: none;
-  white-space: nowrap;
-  display: none; /* Initially hidden */
-}
-
-#commit-tooltip.visible {
-  display: block;
 }
 
 @keyframes marching-ants {
