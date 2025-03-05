@@ -443,9 +443,9 @@ document.head.appendChild(styleElement);
 
 const filesContainer = document.querySelector('.files');
 
-const timeSliderInput = document.querySelector('#timeSlider');
+// const timeSliderInput = document.querySelector('#timeSlider');
 
-timeSliderInput.parentNode.insertBefore(filesContainer, timeSliderInput.nextElementSibling);
+// timeSliderInput.parentNode.insertBefore(filesContainer, timeSliderInput.nextElementSibling);
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadData();
@@ -495,30 +495,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     timeScale = d3.scaleTime()
       .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
       .range([0, 100]);
-  
+
     function updateTimeDisplay() {
-      commitProgress = Number(timeSlider.value);
-      if (commitProgress === -1) {
-        selectedTime.textContent = 'any time';
-        filteredCommits = [...commits];
-        updateScatterplot(filteredCommits);
+        commitProgress = Math.floor(scrollContainer.property('scrollTop') / ITEM_HEIGHT);
+        const commitMaxTime = commits[commitProgress] ? new Date(commits[commitProgress].datetime) : 'any time';
+        selectedTime.textContent = commitMaxTime instanceof Date ? commitMaxTime.toLocaleString() : 'any time';
         
-        itemsContainer.selectAll('div').style('display', 'block');
-      } else {
-        commitMaxTime = timeScale.invert(commitProgress);
-        selectedTime.textContent = commitMaxTime.toLocaleString();
-        
-        filteredCommits = commits.filter(commit => commit.datetime <= commitMaxTime);
-        
+        filteredCommits = commits.filter(commit => new Date(commit.datetime) <= commitMaxTime);
         updateScatterplot(filteredCommits);
         
         itemsContainer.selectAll('div')
-          .style('display', d => filteredCommits.includes(d) ? 'block' : 'none');
-      }
-      
-      updateFileVisualization();
+            .style('display', d => filteredCommits.includes(d) ? 'block' : 'none');
+        
+        updateFileVisualization();
     }
-    timeSliderInput.addEventListener('input', updateTimeDisplay);
-  
     updateTimeDisplay();
   });

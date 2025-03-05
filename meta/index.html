@@ -35,23 +35,27 @@
 
     <div id="stats"></div> 
 
-    <div class="slider-container">
-        <label>
-            Show commits until:
-            <input type="range" id="timeSlider" min="-1" max="100" value="-1">
-        </label>
-        <time id="selectedTime"></time>
-    </div>
-
     <dl class="files"></dl>
 
-    <h2>Commits by time of day</h2>
-    <div id="scrollytelling">
-        <div id="scroll-container">
-            <div id="spacer"></div>
-            <div id="items-container"></div>
+    <h2>Commits and File Sizes over Time</h2>
+    <div id="scrollytelling-container">
+        <div id="scrollytelling-commits">
+            <h3>Commits Over Time</h3>
+            <div id="scroll-container">
+                <div id="spacer"></div>
+                <div id="items-container"></div>
+            </div>
+            <div id="chart"></div>
         </div>
-        <div id="chart"></div>
+        
+        <div id="scrollytelling-files">
+            <h3>File Size Changes</h3>
+            <div id="scroll-container-files">
+                <div id="spacer-files"></div>
+                <div id="items-container-files"></div>
+            </div>
+            <div id="chart-files"></div>
+        </div>
     </div>
 
     <script src="../global.js" type="module"></script>
