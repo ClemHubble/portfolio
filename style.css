@@ -337,14 +337,19 @@ circle:hover {
 }
 
 #commit-tooltip {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  pointer-events: none;
+  white-space: nowrap;
+  display: none; /* Initially hidden */
 }
 
 #commit-tooltip.visible {
-  opacity: 1;
-  visibility: visible;
+  display: block;
 }
 
 @keyframes marching-ants {
@@ -424,4 +429,48 @@ dd {
   gap: 0.15em;
   padding-top: 0.6em;
   margin-left: 0;
+}
+
+:global(body) {
+  max-width: min(120ch, 80vw);
+}
+
+#scrollytelling {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+#scroll-container {
+  grid-column: 1;
+  position: relative;
+  width: 95%;
+  height: 350px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  margin-bottom: 50px;
+}
+
+#chart {
+  grid-column: 2;
+}
+
+#spacer {
+  position: relative;
+  width: 100%;
+  background: none;
+}
+
+#items-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.item {
+  height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-bottom: 2px solid #eee;
 }
