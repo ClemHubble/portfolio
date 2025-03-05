@@ -442,12 +442,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderCommits(startIndex = 0) {
       const visibleCommits = commits.slice(startIndex, startIndex + VISIBLE_ITEMS);
       
-      updateScatterplot(visibleCommits);
-      
       itemsContainer.selectAll('div').remove();
       
       itemsContainer.selectAll('div')
-        .data(commits)
+        .data(commits.slice(startIndex, startIndex + VISIBLE_ITEMS))
         .enter()
         .append('div')
         .style('position', 'absolute')
@@ -471,6 +469,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const scrollTop = scrollContainer.property('scrollTop');
       const startIndex = Math.floor(scrollTop / ITEM_HEIGHT);
       renderCommits(startIndex);
+      updateTimeDisplay();
     });
   
     renderCommits();
@@ -481,15 +480,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function updateTimeDisplay() {
         commitProgress = Math.floor(scrollContainer.property('scrollTop') / ITEM_HEIGHT);
-        const commitMaxTime = commits[commitProgress] ? new Date(commits[commitProgress].datetime) : 'any time';
+        const commitMaxTime = commits[commitProgress] ? new Date(commits[commitProgress].datetime) : d3.max(commits, d => d.datetime);
        
         filteredCommits = commits.filter(commit => new Date(commit.datetime) <= commitMaxTime);
+        
         updateScatterplot(filteredCommits);
         
         itemsContainer.selectAll('div')
-            .style('display', d => filteredCommits.includes(d) ? 'block' : 'none');
+            .style('display', d => {
+                const commitDate = new Date(d.datetime);
+                return commitDate <= commitMaxTime ? 'block' : 'none';
+            });
         
         updateFileVisualization();
     }
+    
     updateTimeDisplay();
-  });
+});
