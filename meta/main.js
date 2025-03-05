@@ -438,32 +438,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const ITEM_HEIGHT = 50;
     const VISIBLE_ITEMS = 10;
-    
+
     function renderCommits(startIndex = 0) {
-      const visibleCommits = commits.slice(startIndex, startIndex + VISIBLE_ITEMS);
+        const visibleCommits = commits.slice(startIndex, startIndex + VISIBLE_ITEMS);
+        
+        itemsContainer.selectAll('div').remove();
+        
+        itemsContainer.selectAll('div')
+          .data(visibleCommits)
+          .enter()
+          .append('div')
+          .style('position', 'absolute')
+          .style('top', (d, i) => `${i * ITEM_HEIGHT}px`)
+          .style('width', '100%')
+          .html((d, index) => {
+            const commitDate = new Date(d.datetime);
+            return `<p>
+              On ${commitDate.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}, I made
+              <a href="${d.url}" target="_blank">
+                ${index === 0 && startIndex === 0 ? 'my first commit, and it was glorious.' : 'another glorious commit.'}
+              </a> I edited ${d.totalLines} lines across ${d.files?.length} files.
+            </p>`;
+          });
       
-      itemsContainer.selectAll('div').remove();
-      
-      itemsContainer.selectAll('div')
-        .data(commits.slice(startIndex, startIndex + VISIBLE_ITEMS))
-        .enter()
-        .append('div')
-        .style('position', 'absolute')
-        .style('top', (d, i) => `${i * ITEM_HEIGHT}px`)
-        .style('width', '100%')
-        .html((d, index) => {
-          const commitDate = new Date(d.datetime);
-          return `<p>
-            On ${commitDate.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}, I made
-            <a href="${d.url}" target="_blank">
-              ${index === 0 ? 'my first commit, and it was glorious.' : 'another glorious commit.'}
-            </a> I edited ${d.totalLines} lines across ${d.files?.length} files.
-          </p>`;
-        });
-  
-      const totalHeight = commits.length * ITEM_HEIGHT;
-      d3.select('#spacer').style('height', `${totalHeight}px`);
-    }
+        const totalHeight = commits.length * ITEM_HEIGHT;
+        d3.select('#spacer').style('height', `${totalHeight}px`);
+      }
   
     scrollContainer.on('scroll', () => {
       const scrollTop = scrollContainer.property('scrollTop');
