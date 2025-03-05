@@ -495,8 +495,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function updateTimeDisplay() {
         commitProgress = Math.floor(scrollContainer.property('scrollTop') / ITEM_HEIGHT);
         const commitMaxTime = commits[commitProgress] ? new Date(commits[commitProgress].datetime) : 'any time';
-        selectedTime.textContent = commitMaxTime instanceof Date ? commitMaxTime.toLocaleString() : 'any time';
-        
+       
         filteredCommits = commits.filter(commit => new Date(commit.datetime) <= commitMaxTime);
         updateScatterplot(filteredCommits);
         
