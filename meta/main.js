@@ -36,8 +36,13 @@ async function loadData() {
 
   NUM_ITEMS = commits.length;                    
   totalHeight = (NUM_ITEMS - VISIBLE_COUNT) * ITEM_HEIGHT; 
-  spacer.style('height', `${totalHeight}px`);
-  spacer2.style('height', `${totalHeight}px`);
+  spacer.style('height', `${totalHeight}px`)
+    .style('display', 'block')  // Make sure it's visible
+    .style('opacity', '0');     // But transparent
+
+  spacer2.style('height', `${totalHeight}px`)
+    .style('display', 'block') // Make sure it's visible
+    .style('opacity', '0');    // But transparent
 
   renderItems(0);
   renderItems2(0);
@@ -414,7 +419,7 @@ function commitNarrative(commit, index) {
       <p>
         On <a href="${commit.url}" target="_blank">
           ${commit.datetime.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}
-        </a>, I made ${index > 0 ? 'another improvement' : 'my first commit, and it was a great start'}.
+        </a>, 
         I edited ${commit.totalLines} lines across ${fileCount} ${fileCount === 1 ? 'file' : 'files'}.
         After making these changes, I reviewed the progress and felt a sense of accomplishment with what I had achieved.
       </p>
@@ -428,42 +433,50 @@ function commitNarrative2(commit, index) {
     <p>
       On <a href="${commit.url}" target="_blank">
         ${commit.datetime.toLocaleString("en", { dateStyle: "full", timeStyle: "short" })}
-      </a>, I made ${index > 0 ? 'some refinements' : 'my first commit, setting the foundation for the project'}.
-      This update involved editing ${commit.totalLines} lines across ${fileCount} ${fileCount === 1 ? 'file' : 'files'}.
+      </a>,
+      I edited ${commit.totalLines} lines across ${fileCount} ${fileCount === 1 ? 'file' : 'files'}.
       It was a meaningful step forward in shaping the project.
     </p>
   `;
 }
 
 function renderItems(startIndex) {
-    itemsContainer.selectAll('div').remove();
-    const endIndex = Math.min(startIndex + VISIBLE_COUNT, commits.length);
-    let newCommitSlice = commits.slice(startIndex, endIndex);
-    updateScatterplot(newCommitSlice);
-    itemsContainer.selectAll('div')
-      .data(newCommitSlice)
-      .enter()
-      .append('div')
-      .html((commit, index) => commitNarrative(commit, index)) 
-      .style('position', 'absolute')
-      .style('top', (_, idx) => `${idx * ITEM_HEIGHT}px`);
-  }
+  itemsContainer.selectAll('div').remove();
+  
+  const commitsToRender = filteredCommits.length > 0 ? filteredCommits : commits;
+  
+  const endIndex = Math.min(startIndex + VISIBLE_COUNT, commitsToRender.length);
+  let newCommitSlice = commitsToRender.slice(startIndex, endIndex);
+  
+  updateScatterplot(newCommitSlice);
+  
+  itemsContainer.selectAll('div')
+    .data(newCommitSlice)
+    .enter()
+    .append('div')
+    .html((commit, index) => commitNarrative(commit, index)) 
+    .style('position', 'absolute')
+    .style('top', (_, idx) => `${(startIndex + idx) * ITEM_HEIGHT}px`); 
+}
   
 
 function renderItems2(startIndex) {
-    itemsContainer2.selectAll('div').remove();
-    const endIndex = Math.min(startIndex + VISIBLE_COUNT, commits.length);
-    let newCommitSlice = commits.slice(startIndex, endIndex);
+  itemsContainer2.selectAll('div').remove();
+  
+  const commitsToRender = filteredCommits.length > 0 ? filteredCommits : commits;
+  
+  const endIndex = Math.min(startIndex + VISIBLE_COUNT, commitsToRender.length);
+  let newCommitSlice = commitsToRender.slice(startIndex, endIndex);
 
-    displayCommitFiles(newCommitSlice, '#chart-2');
+  displayCommitFiles(newCommitSlice, '#chart-2');
 
-    itemsContainer2.selectAll('div')
-        .data(newCommitSlice)
-        .enter()
-        .append('div')
-        .html((commit, index) => commitNarrative2(commit, index)) 
-        .style('position', 'absolute')
-        .style('top', (_, idx) => `${idx * ITEM_HEIGHT}px`);
+  itemsContainer2.selectAll('div')
+      .data(newCommitSlice)
+      .enter()
+      .append('div')
+      .html((commit, index) => commitNarrative2(commit, index)) 
+      .style('position', 'absolute')
+      .style('top', (_, idx) => `${(startIndex + idx) * ITEM_HEIGHT}px`); 
 }
   
 

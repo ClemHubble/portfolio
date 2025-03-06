@@ -430,6 +430,8 @@ circle.selected {
   width: 100%;
   background: none;
   pointer-events: none;
+  opacity: 0;
+  display: block;
 }
 
 #items-container, #items-container-2 {
