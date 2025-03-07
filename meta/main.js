@@ -37,12 +37,12 @@ async function loadData() {
   NUM_ITEMS = commits.length;                    
   totalHeight = (NUM_ITEMS - VISIBLE_COUNT) * ITEM_HEIGHT; 
   spacer.style('height', `${totalHeight}px`)
-    .style('display', 'block')  // Make sure it's visible
-    .style('opacity', '0');     // But transparent
+    .style('display', 'block')  
+    .style('opacity', '0');     
 
   spacer2.style('height', `${totalHeight}px`)
-    .style('display', 'block') // Make sure it's visible
-    .style('opacity', '0');    // But transparent
+    .style('display', 'block') 
+    .style('opacity', '0');    
 
   renderItems(0);
   renderItems2(0);
